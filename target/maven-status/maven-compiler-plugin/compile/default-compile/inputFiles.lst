@@ -1,0 +1,16 @@
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\redundant_code\DuplicatedSetupDetector.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\failed_setup\ExceptionsNotExplicitlyThrownDetector.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\act_assert_mismatch\NotAssertedSideEffect.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\redundant_code\NotNullAssertionDetector.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\MainDetector.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\low_contribution\NoAssertionsDetector.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\redundant_code\MultipleCallsToTheSameVoidMethod.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\low_contribution\TestingOnlyFieldAccesors.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\act_assert_mismatch\NotAssertedReturnValues.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\low_contribution\AssertingConstantsDetector.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\redundant_code\AssertingObjectInitializationMultipleTimes.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\act_assert_mismatch\AssertionWithNotRelatedParentClassMethod.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\helpers\DetectorResult.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\failed_setup\ExceptionsDueToIncompleteSetupDetector.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\failed_setup\ExceptionsDueToExternalDependenciesDetector.java
+C:\Users\maxim\OneDrive\Escritorio\auto-gen-issues-detector\src\main\java\com\yourorganization\magister_tool\detectors\redundant_code\SameExceptionScenarioExceptionTestDetector.java
