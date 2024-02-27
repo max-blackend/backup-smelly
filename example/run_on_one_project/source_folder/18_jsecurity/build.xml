@@ -1,0 +1,179 @@
+<project basedir="." default="compile" name="jsecurity">
+
+  
+  <property name="build.home" value="build" />
+  <property name="build.classes" value="${build.home}/classes" />
+  <property name="build.tests" value="${build.home}/tests" />
+  <property name="build.evosuite" value="${build.home}/evosuite" />
+  
+  
+  <property name="compile.debug" value="true" />
+  <property name="compile.deprecation" value="true" />
+  <property name="compile.optimize" value="false" />
+  <property name="compile.source" value="1.8" />
+  <property name="compile.target" value="1.8" />
+  <property name="compile.encoding" value="iso-8859-1" />
+  
+	
+  
+  <property name="source.java" value="src/main/java" />
+  <property name="test.java" value="src/test/java" />
+  <property name="source.resources" value="src/main/resources" />
+  <property name="test.resources" value="src/test/resources" />
+  <property name="evosuite.java" value="evosuite-tests" />
+
+  <property name="lib.dir" value="lib/" />
+
+  
+  <path id="source.lib">
+      <fileset dir="lib">
+         <include name="**/*.jar" />
+      </fileset>
+  </path>
+    
+  
+  <path id="test.lib">
+      <fileset dir="test-lib">
+         <include name="**/*.jar" />
+      </fileset>
+      <pathelement location="../junit-4.11.jar" />
+  </path>
+
+  <path id="evosuite.lib">
+      <pathelement location="../evosuite.jar" />
+  </path>  
+  
+    
+
+
+
+
+
+  <target description="Clean build and distribution directories" name="clean">
+    <delete dir="${build.home}" />
+  </target>
+
+
+
+  <target description="Prepare build directory" name="prepare">
+    <mkdir dir="${build.home}" />
+    <mkdir dir="${source.java}" />
+    <mkdir dir="${source.resources}" />
+    <mkdir dir="${test.java}" />
+    <mkdir dir="${test.resources}" />
+    <mkdir dir="lib" />
+    <mkdir dir="test-lib" />
+  </target>
+
+
+
+  <target depends="prepare" description="Compile main code" name="compile">
+    <mkdir dir="${build.classes}" />
+    <javac debug="${compile.debug}" deprecation="${compile.deprecation}" destdir="${build.classes}" encoding="${compile.encoding}" optimize="${compile.optimize}" source="${compile.source}" srcdir="${source.java}" target="${compile.target}">
+          <classpath refid="source.lib" />
+    </javac>
+    <copy todir="${build.classes}">
+        <fileset dir="${source.java}" excludes="**/*.java" />
+        <fileset dir="${source.resources}" includes="**" />
+    </copy>
+  </target>
+
+
+
+
+  
+  <target depends="compile" description="Compile user provided tests" name="compile-tests">
+    <mkdir dir="${build.tests}" />
+    <javac debug="${compile.debug}" deprecation="${compile.deprecation}" destdir="${build.tests}" encoding="${compile.encoding}" optimize="${compile.optimize}" source="${compile.source}" srcdir="${test.java}" target="${compile.target}">
+          <classpath>
+            <path refid="source.lib" />
+            <path refid="test.lib" />
+            <pathelement path="${build.classes}" />
+          </classpath>
+    </javac>
+    <copy todir="${build.tests}">
+        <fileset dir="${test.java}" excludes="**/*.java" />
+        <fileset dir="${test.resources}" />
+    </copy>
+  </target>
+  
+
+  
+  <target depends="compile" description="Compile EvoSuite generated tests" name="compile-evosuite">
+    <mkdir dir="${build.evosuite}" />
+    <javac debug="${compile.debug}" deprecation="${compile.deprecation}" destdir="${build.evosuite}" optimize="${compile.optimize}" source="${compile.source}" srcdir="${evosuite.java}" target="${compile.target}">
+          <classpath>
+            <path refid="source.lib" />
+            <path refid="test.lib" />
+            <path refid="evosuite.lib" />
+            <pathelement path="${build.classes}" />
+          </classpath>
+    </javac>
+  </target>
+
+
+
+  <target depends="compile-tests" description="Run provided tests" name="test">
+     <junit fork="yes" haltonfailure="no" printsummary="yes" showoutput="yes">
+        <formatter type="plain" usefile="false" />
+        <classpath>
+           <pathelement path="${build.classes}" />
+           <pathelement path="${build.tests}" />
+           <path refid="source.lib" />
+           <path refid="test.lib" />
+        </classpath>
+        <batchtest fork="yes">
+           <fileset dir="${test.java}">
+             <include name="**/*.java" />
+           </fileset>
+        </batchtest>
+     </junit>
+  </target> 
+
+
+
+  <target depends="compile-tests" description="Run EvoSuite generated tests" name="evosuite-test">
+     <junit fork="yes" haltonfailure="no" printsummary="yes" showoutput="yes">
+        <formatter type="plain" usefile="false" />
+        <classpath>
+           <pathelement path="${build.classes}" />
+           <pathelement path="${build.evosuite}" />
+           <path refid="source.lib" />
+           <path refid="test.lib" />
+        </classpath>
+        <batchtest fork="yes">
+           <fileset dir="${test.java}">
+             <include name="**/*.java" />
+           </fileset>
+        </batchtest>
+     </junit>
+  </target> 
+  
+  
+
+  <target depends="compile" description="Create main jar file" name="jar">
+    <jar jarfile="${ant.project.name}.jar">
+      <fileset dir="${build.classes}" />      
+    </jar>
+  </target> 
+
+  
+  
+
+  <target depends="compile-tests" description="Create tests jar file" name="jar-tests">
+    <jar jarfile="${ant.project.name}-tests.jar">
+      <fileset dir="${build.tests}" />      
+    </jar>
+  </target> 
+
+  
+  
+
+  <target depends="compile-evosuite" description="Create evosuite tests jar file" name="jar-evosuite">
+    <jar jarfile="${ant.project.name}-evosuite.jar">
+      <fileset dir="${build.evosuite}" />
+    </jar>
+  </target> 
+
+  
+</project>
