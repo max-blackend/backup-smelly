@@ -57,7 +57,7 @@ public class NotAssertedSideEffect extends VoidVisitorAdapter<Void> {
                         }
                         calledMethods.add(calledMethodName);
                         List<AssignExpr> assignments = calledMethod.findAll(AssignExpr.class);
-                        if (!assignments.isEmpty()) { // && calledMethod.getType() instanceof VoidType
+                        if (!assignments.isEmpty() && calledMethod.getType() instanceof VoidType ) {
                             Set<String> modifiedVariables = new HashSet<>();
                             for (AssignExpr assignment : assignments) {
                                 if (assignment.getTarget().isFieldAccessExpr()) {

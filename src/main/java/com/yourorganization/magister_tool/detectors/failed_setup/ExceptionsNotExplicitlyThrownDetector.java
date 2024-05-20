@@ -63,9 +63,7 @@ public class ExceptionsNotExplicitlyThrownDetector extends VoidVisitorAdapter<Vo
         boolean hasCatch = tryStatement.isPresent() && tryStatement.get().asTryStmt().getCatchClauses().size() == 1
                 && (tryStatement.get().asTryStmt().getCatchClauses().get(0).getParameter().getType().asString()
                         .contains("NullPointerException")
-                        ||
-                        tryStatement.get().asTryStmt().getCatchClauses().get(0).getParameter().getType()
-                                .asString().contains("Exception"));
+                        );
         return tryStatement.isPresent() && hasCatch;
     }
 
@@ -369,9 +367,9 @@ public class ExceptionsNotExplicitlyThrownDetector extends VoidVisitorAdapter<Vo
                 continue;
             }
 
-            if (baseCaseTestFullyContainedInsideTryClause(testMethod)) {
-                continue;
-            }
+            // if (baseCaseTestFullyContainedInsideTryClause(testMethod)) {
+            //     continue;
+            // }
 
             // If any of the previous conditions is not met, we continue with the analysis.
             // Now we check for the object initializations. We will store the name of the

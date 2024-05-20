@@ -49,9 +49,9 @@ public class MainDetector {
     // public static final String generalTestsPath =
     // "C:/Users/maxim/OneDrive/Escritorio/s0";
     // public static final String junitPath =
-    // "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/smelly/junit-4.11.jar";
+    // "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/auto-gen-issues-detector/junit-4.11.jar";
     // public static final String evosuiteStandaloneRuntimePath =
-    // "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/smelly/evosuite-standalone-runtime-1.2.0.jar";
+    // "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/auto-gen-issues-detector/evosuite-standalone-runtime-1.2.0.jar";
 
     public static String generalPath;
     public static String generalTestsPath;
@@ -95,7 +95,7 @@ public class MainDetector {
         }
 
         DetectorResult detectorResults = new DetectorResult(outputFilePath, outputFileName, resumeAnalisis);
-        File[] listOfFiles = getFiles(generalPath);
+        File[] listOfFiles = getFiles(generalPath); 
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isDirectory()) {
@@ -132,7 +132,12 @@ public class MainDetector {
                             }
                         }
                     }
-                } catch (Exception e) {
+                }catch (NullPointerException e) {
+                    System.out.println("EXCEPTION: " + e.getMessage() + " " + e.getStackTrace());
+                        
+                }
+                catch (Exception e) {
+                    
                     System.out.println("EXCEPTION: " + e.getMessage());
                     System.out.println(
                             "Error fatal VINCULANTE: " + projectName + " path:" + listOfFiles[i].getAbsolutePath());
@@ -191,7 +196,12 @@ public class MainDetector {
         try {
             processProject(realName, jarPath, libPathInput, sourcePath, testPath, testFilePath, detectorResults,
                     testFileName);
-        } catch (Exception e) {
+        
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.out.println("Error fatal contenido: " + realName + " path:" + testFilePath);
+        }
+        catch (Exception e) {
             System.out.println("EXCEPTION: " + e.getMessage());
             System.out.println("Error fatal contenido: " + realName + " path:" + testFilePath);
         }
@@ -564,6 +574,7 @@ public class MainDetector {
 
     private static void addLibFilesToTypeSolver(String libPathInput, CombinedTypeSolver combinedTypeSolver) {
         Path libPath = CodeGenerationUtils.mavenModuleRoot(MainDetector.class).resolve(libPathInput);
+        try{
         for (File path : libPath.toFile().listFiles()) {
             if (path.getName().endsWith(".jar")) {
                 try {
@@ -573,6 +584,9 @@ public class MainDetector {
                 }
             }
         }
+    } catch (NullPointerException e) {
+        System.out.println("EXCEPTION LIB FILES SO: " + e.getMessage());
+    }
     }
 
     private static void runAssertionWithNotRelatedParentClassMethod(String realName, String testFileName,
@@ -694,7 +708,7 @@ public class MainDetector {
         if (junitPathFlag != null) {
             junitPath = junitPathFlag;
         } else {
-            junitPath = "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/smelly/junit-4.11.jar";
+            junitPath = "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/auto-gen-issues-detector/junit-4.11.jar";
         }
     }
 
@@ -702,7 +716,7 @@ public class MainDetector {
         if (evosuiteStandaloneRuntimePathFlag != null) {
             evosuiteStandaloneRuntimePath = evosuiteStandaloneRuntimePathFlag;
         } else {
-            evosuiteStandaloneRuntimePath = "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/smelly/evosuite-standalone-runtime-1.2.0.jar";
+            evosuiteStandaloneRuntimePath = "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/auto-gen-issues-detector/evosuite-standalone-runtime-1.2.0.jar";
         }
     }
 

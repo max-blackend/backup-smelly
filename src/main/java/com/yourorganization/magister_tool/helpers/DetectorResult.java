@@ -84,7 +84,7 @@ public class DetectorResult {
 
     public void printToCsvFile() {
         writeEachClassOcurrences();
-        // String csvFile = "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/smelly/results_FULL_JTExpert.csv";
+        // String csvFile = "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/auto-gen-issues-detector/results_FULL_JTExpert.csv";
         // String csvFile = "C:/Users/maxim/OneDrive/Escritorio/CONTEO/Final_samples_standard/EVALUATION_REVISITED_FISTANDARD.csv";
         // try (PrintWriter writer = new PrintWriter(new File(csvFile))) {
         //     writer.write(createCsvHeader());
@@ -124,7 +124,7 @@ public class DetectorResult {
 
 
         try (FileWriter fileWriter = new FileWriter(
-                // "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/smelly/incidencesPerClassTest_FULL_JTExpert.json")) {
+                // "C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/auto-gen-issues-detector/incidencesPerClassTest_FULL_JTExpert.json")) {
                     // "C:/Users/maxim/OneDrive/Escritorio/CONTEO/Final_samples_jtexpert/EVALUATION_REVISITED_FINAL_JTEXPERT.json")) {
                         // "C:/Users/maxim/OneDrive/Escritorio/s0/stats.json")) {
                             this.outputFilePath + "/" + this.outputFileName)) {
@@ -143,7 +143,7 @@ public class DetectorResult {
         Gson gson = new Gson();
         String json = "";
         try {
-            // json = new String(Files.readAllBytes(Paths.get("C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/smelly/incidencesPerClassTest_FULL_JTExpert.json")));
+            // json = new String(Files.readAllBytes(Paths.get("C:/Users/maxim/OneDrive/Escritorio/Code/Tool-Magister/auto-gen-issues-detector/incidencesPerClassTest_FULL_JTExpert.json")));
             // json = new String(Files.readAllBytes(Paths.get("C:/Users/maxim/OneDrive/Escritorio/CONTEO/Final_samples_standard/EVALUATION_REVISITED_FINAL_STANDARD.json")));
             // json = new String(Files.readAllBytes(Paths.get("C:/Users/maxim/OneDrive/Escritorio/s0/stats.json")));
             if (resumeAnalisis == true) {
