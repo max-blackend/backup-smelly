@@ -5,7 +5,14 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.type.VoidType;
+import com.github.javaparser.resolution.TypeSolver;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
+import com.github.javaparser.resolution.declarations.ResolvedFieldDeclaration;
+import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
+import com.github.javaparser.resolution.declarations.ResolvedValueDeclaration;
+import com.github.javaparser.symbolsolver.JavaSymbolSolver;
+import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarations.JavaParserMethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.TryStmt;
@@ -16,11 +23,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.xalan.xsltc.compiler.sym;
+
 public class NotAssertedSideEffect extends VoidVisitorAdapter<Void> {
 
     private int issueCount = 0;
     private Set<String> countedTests = new HashSet<>();
     private ArrayList<String> testsWithIncidence = new ArrayList<String>();
+    private final TypeSolver symbolSolver;
+
+    public NotAssertedSideEffect(TypeSolver typeSolver) {
+        this.symbolSolver = typeSolver;
+    }
 
     public int getIssueCount() {
         return issueCount;
@@ -44,6 +58,7 @@ public class NotAssertedSideEffect extends VoidVisitorAdapter<Void> {
             body.findAll(MethodCallExpr.class).forEach(methodCall -> {
                 try {
                     Optional<Node> optCalledMethodNode = methodCall.resolve().toAst();
+                    ResolvedMethodDeclaration resolvedMethodDeclaration = methodCall.resolve();
 
                     if (!optCalledMethodNode.isPresent()) {
                         return;
@@ -56,12 +71,25 @@ public class NotAssertedSideEffect extends VoidVisitorAdapter<Void> {
                             return;
                         }
                         calledMethods.add(calledMethodName);
+                        //List<AssignExpr> assignments = ((JavaParserMethodDeclaration) resolvedMethodDeclaration).getWrappedNode().findAll(AssignExpr.class);
                         List<AssignExpr> assignments = calledMethod.findAll(AssignExpr.class);
                         if (!assignments.isEmpty() && calledMethod.getType() instanceof VoidType ) {
                             Set<String> modifiedVariables = new HashSet<>();
                             for (AssignExpr assignment : assignments) {
                                 if (assignment.getTarget().isFieldAccessExpr()) {
                                     modifiedVariables.add(assignment.getTarget().asFieldAccessExpr().getNameAsString());
+                                }                            
+                                //Add fix, if this.x and x are not the same but refer to the same field. 
+                                if (assignment.getTarget().isNameExpr()){
+                                    NameExpr nameExpr = assignment.getTarget().asNameExpr();
+                                    try {
+                                        ResolvedValueDeclaration resolved = JavaParserFacade.get(symbolSolver).solve(nameExpr).getCorrespondingDeclaration();
+                                        if (resolved instanceof ResolvedFieldDeclaration) {
+                                            modifiedVariables.add(nameExpr.getNameAsString());
+                                        }
+                                    } catch (Exception e) {
+                                        System.out.println(nameExpr.getNameAsString() + " could not be resolved: " + e.getMessage());
+                                    }
                                 }
                             }
                             boolean isAsserted = false;

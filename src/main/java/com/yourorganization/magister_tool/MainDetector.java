@@ -335,7 +335,7 @@ public class MainDetector {
     private static void runActAssertMismatchDetectors(String realName, String testFileName,
             DetectorResult detectorResults,
             CompilationUnit cu, TypeSolver typeSolver) {
-        runNotAssertedSideEffect(realName, testFileName, detectorResults, cu);
+        runNotAssertedSideEffect(realName, testFileName, detectorResults, cu, typeSolver);
         runNotAssertedReturnValue(realName, detectorResults, testFileName, cu);
         runAssertionWithNotRelatedParentClassMethod(realName, testFileName, detectorResults, cu, typeSolver);
     }
@@ -616,8 +616,8 @@ public class MainDetector {
     }
 
     private static void runNotAssertedSideEffect(String realName, String testFileName, DetectorResult detectorResults,
-            CompilationUnit cu) {
-        NotAssertedSideEffect notAssertedSideEffect = new NotAssertedSideEffect();
+            CompilationUnit cu, TypeSolver typeSolver) {
+        NotAssertedSideEffect notAssertedSideEffect = new NotAssertedSideEffect(typeSolver);
         cu.accept(notAssertedSideEffect, null);
         detectorResults.addIncidence(realName + "." + testFileName, "Not asserted side effects",
                 notAssertedSideEffect.getIssueCount());
