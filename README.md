@@ -88,6 +88,13 @@ The parameters are the following:
 ### Current Benchmark
 ![Alt text](images/image.png)
 
+### How to modify or extend Smelly
+Smelly uses JavaParser visitors to perform static analysis on generated tests and have access to the class under test and available dependencies. 
+
+To create a new detector you must:
+1. Define a rule of detection based on static analysis.
+2. Create a new class for your detector, if you need a basic visitor, you may inherit from `VoidVisitorAdapter<Void>`.
+3. Customize the execution of your detector in `MainDetector` class.
 
 ### Important notes
  _Be sure to have created the output folder before executing the tool._
