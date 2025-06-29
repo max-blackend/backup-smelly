@@ -1,0 +1,851 @@
+{
+    "org.jsecurity.web.attr.CookieAttribute_ESTest": {
+        "test19": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                63,
+                64,
+                70,
+                71,
+                72,
+                73,
+                86,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                74,
+                75,
+                232
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67,
+                277
+            ]
+        },
+        "test18": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                86,
+                90,
+                91,
+                98,
+                99,
+                110,
+                166,
+                173
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                101,
+                102,
+                103,
+                130,
+                131,
+                132,
+                162,
+                175,
+                176,
+                187,
+                199,
+                200,
+                203,
+                207,
+                208,
+                253,
+                254,
+                256,
+                257,
+                260,
+                261,
+                262,
+                263,
+                265
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67,
+                277,
+                293
+            ]
+        },
+        "test08": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                86,
+                90,
+                91,
+                98,
+                99,
+                110,
+                166,
+                173
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                101,
+                102,
+                103,
+                162,
+                175,
+                176,
+                187,
+                253,
+                254,
+                256,
+                257,
+                260
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67,
+                277,
+                293
+            ]
+        },
+        "test20": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                86,
+                90,
+                91,
+                98,
+                99,
+                110,
+                166,
+                173
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                101,
+                102,
+                103,
+                130,
+                131,
+                132,
+                162,
+                175,
+                176,
+                187,
+                199,
+                200,
+                203,
+                253,
+                254,
+                256,
+                257,
+                260,
+                261,
+                262,
+                263
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67,
+                277,
+                293
+            ]
+        },
+        "test21": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                85,
+                86,
+                187,
+                203
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test09": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                63,
+                64,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                74,
+                75,
+                253
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67,
+                277
+            ]
+        },
+        "test07": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                63,
+                64,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                74,
+                75
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test13": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                101,
+                102,
+                103,
+                130,
+                131,
+                132,
+                162,
+                175,
+                176,
+                187,
+                199,
+                200,
+                203
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test12": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                76,
+                77,
+                79,
+                80,
+                81,
+                82,
+                83,
+                90,
+                91,
+                98,
+                99,
+                125,
+                126
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                147,
+                148,
+                149,
+                150,
+                162,
+                175,
+                176,
+                187,
+                199,
+                200,
+                203
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test06": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                63,
+                64,
+                70,
+                71,
+                72,
+                73,
+                86,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                74,
+                75,
+                276
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67,
+                277
+            ]
+        },
+        "test10": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                63,
+                64,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                74,
+                75,
+                232
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test04": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                101,
+                102,
+                103,
+                130,
+                131,
+                132,
+                162,
+                175,
+                176,
+                187,
+                199,
+                200,
+                203
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test05": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                101,
+                102,
+                103,
+                130,
+                131,
+                132,
+                162,
+                175,
+                176,
+                187,
+                199,
+                200,
+                203
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test11": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                76,
+                77,
+                79,
+                80,
+                81,
+                82,
+                83,
+                90,
+                91,
+                98,
+                99,
+                125,
+                126
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                147,
+                148,
+                149,
+                150,
+                162,
+                175,
+                176,
+                187,
+                199,
+                200,
+                203
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test15": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                76,
+                77,
+                79,
+                80,
+                81,
+                82,
+                83,
+                90,
+                91,
+                98,
+                99,
+                125,
+                126
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                147,
+                148,
+                149,
+                150,
+                175,
+                176,
+                187,
+                199,
+                200
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test01": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                101,
+                102,
+                103,
+                130,
+                131,
+                132,
+                175,
+                176,
+                199,
+                200,
+                203,
+                207,
+                208
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test00": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                101,
+                102,
+                103,
+                162,
+                175,
+                176,
+                187,
+                203,
+                207,
+                208
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test14": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                76,
+                77,
+                79,
+                80,
+                81,
+                82,
+                83,
+                90,
+                91,
+                98,
+                99,
+                125,
+                126
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                147,
+                148,
+                149,
+                150,
+                162,
+                175,
+                176,
+                199,
+                200,
+                203
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test02": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                76,
+                77,
+                79,
+                80,
+                81,
+                82,
+                83,
+                90,
+                91,
+                98,
+                99,
+                125,
+                126
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                147,
+                148,
+                149,
+                150,
+                162,
+                175,
+                176,
+                187,
+                199,
+                200,
+                203
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test16": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                63,
+                64,
+                70,
+                71,
+                72,
+                73,
+                86,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                74,
+                75,
+                162,
+                187,
+                253,
+                254,
+                256,
+                257
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67,
+                277,
+                293
+            ]
+        },
+        "test17": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                116,
+                117,
+                118,
+                187,
+                199,
+                200,
+                203
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        },
+        "test03": {
+            "ClassUtils.java": [
+                39
+            ],
+            "AbstractWebAttribute.java": [
+                48,
+                67,
+                68,
+                70,
+                71,
+                72,
+                73,
+                90,
+                91,
+                98,
+                99
+            ],
+            "CookieAttribute.java": [
+                44,
+                60,
+                101,
+                102,
+                103,
+                162,
+                175,
+                176,
+                187,
+                203
+            ],
+            "WebUtils.java": [
+                56,
+                66,
+                67
+            ]
+        }
+    }
+}

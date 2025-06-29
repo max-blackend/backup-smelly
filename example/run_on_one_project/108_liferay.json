@@ -1,0 +1,20 @@
+{
+  "jsecurity.CookieAttribute": {
+    "Assertion with not related parent class method": [],
+    "Asserting object initialization multiple times": [],
+    "Exceptions due to null arguments": [
+      "test19"
+    ],
+    "Testing the same exception scenario": [],
+    "Multiple calls to the same void method": [],
+    "Exceptions due to incomplete setup": [],
+    "Duplicated Setup": [],
+    "Testing only field accesors": [],
+    "Asserting Constants": [],
+    "Not asserted side effects": [],
+    "Test without assertions": [],
+    "Not asserted return values": [],
+    "Exceptions due to external dependencies": [],
+    "Not null assertion": []
+  }
+}
