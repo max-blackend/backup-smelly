@@ -57,6 +57,7 @@ public class MainDetector {
     public static String generalTestsPath;
     public static String junitPath;
     public static String evosuiteStandaloneRuntimePath;
+    public static String coverageFile;
     public static Integer mode; // 0: evosuite tests, 1: JTExpert tests
     public static Integer detectors; // 0: all, 1: low contribution, 2: act-assert mismatch, 3: redundant code, 4:
                                      // failed
@@ -77,7 +78,7 @@ public class MainDetector {
 
         try {
             cmd = parser.parse(options, args);
-
+            System.out.println(cmd.toString());
             setSourcePath(cmd.getOptionValue("sourcePath"));
             setTestPath(cmd.getOptionValue("testPath"));
             setJunitPath(cmd.getOptionValue("junitPath"));
@@ -87,7 +88,10 @@ public class MainDetector {
             outputSetter(cmd.getOptionValue("outputFilePath"));
             outputFileNameSetter(cmd.getOptionValue("outputFileName"));
             sufixSetter(cmd.getOptionValue("sufix"));
+            setCoverageInformationPath(cmd.getOptionValue("coverageFile"));
             resumeAnalisis = Boolean.parseBoolean(cmd.getOptionValue("resumeAnalisis"));
+
+            CoverageJsonFileHelper.readCoverageFile(coverageFile);
         } catch (ParseException e) {
             System.out.println(e.getMessage());
             formatter.printHelp("utility-name", options);
@@ -95,7 +99,8 @@ public class MainDetector {
         }
 
         DetectorResult detectorResults = new DetectorResult(outputFilePath, outputFileName, resumeAnalisis);
-        File[] listOfFiles = getFiles(generalPath); 
+        File[] listOfFiles = getFiles(generalPath);
+
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isDirectory()) {
@@ -340,6 +345,16 @@ public class MainDetector {
         runAssertionWithNotRelatedParentClassMethod(realName, testFileName, detectorResults, cu, typeSolver);
     }
 
+
+    private static void runCoverageDetectors(String realName, String testFileName,
+                                                      DetectorResult detectorResults,
+                                                      CompilationUnit cu, TypeSolver typeSolver) {
+        runNotAssertedSideEffect(realName, testFileName, detectorResults, cu, typeSolver);
+        runAssertionWithNotRelatedParentClassMethod(realName, testFileName, detectorResults, cu, typeSolver);
+        runExceptionsDueToIncompleteSetupDetector(realName, detectorResults, testFileName, cu);
+        runMultipleCallsToTheSameVoidMethod(realName, testFileName, detectorResults, cu);
+    }
+
     private static void runExceptionsDueToNullArgumentsDetector(String realName, DetectorResult detectorResults,
             String testFileName, CompilationUnit cu) {
         ExceptionsNotExplicitlyThrownDetector exceptionsDueToNullArgumentsDetector = new ExceptionsNotExplicitlyThrownDetector();
@@ -354,7 +369,7 @@ public class MainDetector {
 
     private static void runExceptionsDueToIncompleteSetupDetector(String realName, DetectorResult detectorResults,
             String testFileName, CompilationUnit cu) {
-        ExceptionsDueToIncompleteSetupDetector exceptionsDueToIncompleteSetupDetector = new ExceptionsDueToIncompleteSetupDetector();
+        ExceptionsDueToIncompleteSetupDetector exceptionsDueToIncompleteSetupDetector = new ExceptionsDueToIncompleteSetupDetector(testFileName);
         cu.accept(exceptionsDueToIncompleteSetupDetector, null);
         detectorResults.addIncidence(realName + "." + testFileName,
                 "Exceptions due to incomplete setup",
@@ -592,7 +607,7 @@ public class MainDetector {
     private static void runAssertionWithNotRelatedParentClassMethod(String realName, String testFileName,
             DetectorResult detectorResults, CompilationUnit cu, TypeSolver typeSolver) {
         AssertionWithNotRelatedParentClassMethod assertionWithNotRelatedParentClassMethod = new AssertionWithNotRelatedParentClassMethod(
-                typeSolver);
+                typeSolver, testFileName);
         cu.accept(assertionWithNotRelatedParentClassMethod, null);
         detectorResults.addIncidence(realName + "." + testFileName,
                 "Assertion with not related parent class method",
@@ -617,7 +632,7 @@ public class MainDetector {
 
     private static void runNotAssertedSideEffect(String realName, String testFileName, DetectorResult detectorResults,
             CompilationUnit cu, TypeSolver typeSolver) {
-        NotAssertedSideEffect notAssertedSideEffect = new NotAssertedSideEffect(typeSolver);
+        NotAssertedSideEffect notAssertedSideEffect = new NotAssertedSideEffect(typeSolver, testFileName);
         cu.accept(notAssertedSideEffect, null);
         detectorResults.addIncidence(realName + "." + testFileName, "Not asserted side effects",
                 notAssertedSideEffect.getIssueCount());
@@ -678,6 +693,10 @@ public class MainDetector {
         help.setRequired(false);
         options.addOption(help);
 
+        Option coverageFile = new Option("c", "coverageFile", true, "includes the route for a json file including coverage information for each test");
+        help.setRequired(false);
+        options.addOption(coverageFile);
+
     }
 
     public static void setSourcePath(String sourcePathFlag) {
@@ -686,6 +705,11 @@ public class MainDetector {
         } else {
             generalPath = "C:/Users/maxim/OneDrive/Escritorio/Code/Functional-Evosuite-tests/subjects";
         }
+    }
+
+    public static void setCoverageInformationPath(String coverageInformationPath){
+        if(coverageInformationPath != null)
+            coverageFile = coverageInformationPath;
     }
 
     public static void setTestPath(String testPathFlag) {
@@ -774,6 +798,9 @@ public class MainDetector {
             case 4:
                 runTestingFieldAccessorsAndConstantsDetectors(realName, testFileName, detectorResults, cu, typeSolver,
                         symbolSolver);
+                break;
+            case 5:
+                runCoverageDetectors(realName, testFileName, detectorResults, cu, typeSolver);
                 break;
             default:
                 break;

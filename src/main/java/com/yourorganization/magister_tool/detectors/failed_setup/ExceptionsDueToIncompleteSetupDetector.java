@@ -21,6 +21,7 @@ import com.github.javaparser.ast.stmt.ForStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.VoidType;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.yourorganization.magister_tool.helpers.CoverageJsonFileHelper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,8 +32,12 @@ import java.util.stream.Collectors;
 
 public class ExceptionsDueToIncompleteSetupDetector extends VoidVisitorAdapter<Void> {
     private int issueCount = 0;
+    private String testFileName;
     private ArrayList<String> testsWithIncidence = new ArrayList<String>();
 
+    public ExceptionsDueToIncompleteSetupDetector(String testFileName){
+        this.testFileName = testFileName;
+    }
     public ArrayList getIssueList() {
         testsWithIncidence.sort(String::compareToIgnoreCase);
         return testsWithIncidence;
@@ -99,9 +104,14 @@ public class ExceptionsDueToIncompleteSetupDetector extends VoidVisitorAdapter<V
                                 List<AssignExpr> assignments = calledMethod.findAll(AssignExpr.class);
                                 if (!assignments.isEmpty() && calledMethod.getType() instanceof VoidType) {
                                     for (AssignExpr assignment : assignments) {
-                                        if (assignment.getTarget().isFieldAccessExpr()) {
-                                            modifiedVariables
-                                                    .add(assignment.getTarget().asFieldAccessExpr().getNameAsString());
+                                        // check if the assignation line as executed
+                                        List<Integer> executedLines = CoverageJsonFileHelper.getCoveredLinesForTest(testFileName, calledMethod.getNameAsString(), testFileName + ".java");
+                                        Integer assignationLine = assignment.getRange().get().begin.line;
+                                        if(executedLines.contains(assignationLine)) {
+                                            if (assignment.getTarget().isFieldAccessExpr()) {
+                                                modifiedVariables
+                                                        .add(assignment.getTarget().asFieldAccessExpr().getNameAsString());
+                                            }
                                         }
                                     }
                                 }

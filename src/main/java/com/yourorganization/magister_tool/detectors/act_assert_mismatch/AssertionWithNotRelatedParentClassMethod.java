@@ -27,6 +27,7 @@ import com.github.javaparser.ast.Node;
 
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.yourorganization.magister_tool.helpers.CoverageJsonFileHelper;
 
 public class AssertionWithNotRelatedParentClassMethod extends VoidVisitorAdapter<Void> {
 
@@ -37,10 +38,12 @@ public class AssertionWithNotRelatedParentClassMethod extends VoidVisitorAdapter
     //Helpers with sequenciality of calls
     public static boolean reachedAssertions = false;
     public static String currentTest = "undefined";
+    public static String testFileName;
     public static ResolvedMethodDeclaration lastCall = null;
 
-    public AssertionWithNotRelatedParentClassMethod(TypeSolver typeSolver) {
+    public AssertionWithNotRelatedParentClassMethod(TypeSolver typeSolver, String testFileName) {
         this.symbolSolver = typeSolver;
+        this.testFileName = testFileName;
     }
 
     public int getIssueCount() {
@@ -101,12 +104,17 @@ public class AssertionWithNotRelatedParentClassMethod extends VoidVisitorAdapter
                         lastCall = resolvedMethod;
                         resolvedMethod.declaringType().getAllMethods().forEach(methodFromClass -> {
                             if(methodFromClass.getDeclaration() instanceof JavaParserMethodDeclaration){
-                                //System.out.println(currentTest);
-                                //System.out.println("Checking method from call class: " + methodFromClass.getName());
                                 MethodDeclaration declaration = ((JavaParserMethodDeclaration) methodFromClass.getDeclaration()).getWrappedNode();
-                                //Check for all assinations
-                                variablesChangedDuringTest.addAll(declaration.findAll(AssignExpr.class));
-                                //Check for all method call expresions
+                                //Check for all assignations
+                                List<AssignExpr> assignations = declaration.findAll(AssignExpr.class);
+                                for (AssignExpr assignExpr : assignations){
+                                    List<Integer> executedLines = CoverageJsonFileHelper.getCoveredLinesForTest(testFileName, md.getNameAsString(), testFileName + ".java");
+                                    Integer assignationLine = assignExpr.getRange().get().begin.line;
+                                    if(executedLines.contains(assignationLine)) {
+                                        variablesChangedDuringTest.add(assignExpr);
+                                    }
+                                }
+                                //Check for all method call expressions
                                 declaration.findAll(MethodCallExpr.class).forEach(call -> {
                                     try {
                                         ResolvedMethodDeclaration methodResolved = JavaParserFacade.get(symbolSolver).solve(call).getCorrespondingDeclaration();
@@ -116,6 +124,17 @@ public class AssertionWithNotRelatedParentClassMethod extends VoidVisitorAdapter
                                                 methodResolved.declaringType().getAllMethods().forEach(m -> {
                                                     if(m.getName().equals(methodResolved.getName())){
                                                         MethodDeclaration fatherCallDeclaration = ((JavaParserMethodDeclaration) m.getDeclaration()).getWrappedNode();
+                                                        List<AssignExpr> fatherAssignations = fatherCallDeclaration.findAll(AssignExpr.class);
+                                                        for(AssignExpr assignExpr: fatherAssignations){
+                                                            List<Integer> executedLines = CoverageJsonFileHelper.getCoveredLinesForTest(testFileName, md.getNameAsString(), fatherCallDeclaration.getName().asString() + ".java");
+                                                            Integer assignationLine = assignExpr.getRange().get().begin.line;
+                                                            if(executedLines.contains(assignationLine)) {
+                                                                variablesChangedDuringTest.add(assignExpr);
+                                                            }
+                                                        }
+
+
+
                                                         variablesChangedDuringTest.addAll(fatherCallDeclaration.findAll(AssignExpr.class));
                                                     }
                                                 });

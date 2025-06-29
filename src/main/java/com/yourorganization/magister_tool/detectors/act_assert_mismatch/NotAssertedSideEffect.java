@@ -17,12 +17,9 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.TryStmt;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
+import com.yourorganization.magister_tool.helpers.CoverageJsonFileHelper;
 import org.apache.xalan.xsltc.compiler.sym;
 
 public class NotAssertedSideEffect extends VoidVisitorAdapter<Void> {
@@ -31,9 +28,11 @@ public class NotAssertedSideEffect extends VoidVisitorAdapter<Void> {
     private Set<String> countedTests = new HashSet<>();
     private ArrayList<String> testsWithIncidence = new ArrayList<String>();
     private final TypeSolver symbolSolver;
+    private String testFileName;
 
-    public NotAssertedSideEffect(TypeSolver typeSolver) {
+    public NotAssertedSideEffect(TypeSolver typeSolver, String testFileName) {
         this.symbolSolver = typeSolver;
+        this.testFileName = testFileName;
     }
 
     public int getIssueCount() {
@@ -49,11 +48,13 @@ public class NotAssertedSideEffect extends VoidVisitorAdapter<Void> {
 
     @Override
     public void visit(MethodDeclaration md, Void arg) {
+        System.out.println("In test: " + md.getNameAsString());
         md.getBody().ifPresent(body -> {
             if (body.findAll(TryStmt.class).size() > 0) {
                 return;
             }
             String testName = md.getNameAsString();
+
             Set<String> calledMethods = new HashSet<>();
             body.findAll(MethodCallExpr.class).forEach(methodCall -> {
                 try {
@@ -73,25 +74,46 @@ public class NotAssertedSideEffect extends VoidVisitorAdapter<Void> {
                         calledMethods.add(calledMethodName);
                         //List<AssignExpr> assignments = ((JavaParserMethodDeclaration) resolvedMethodDeclaration).getWrappedNode().findAll(AssignExpr.class);
                         List<AssignExpr> assignments = calledMethod.findAll(AssignExpr.class);
+
                         if (!assignments.isEmpty() && calledMethod.getType() instanceof VoidType ) {
                             Set<String> modifiedVariables = new HashSet<>();
-                            for (AssignExpr assignment : assignments) {
-                                if (assignment.getTarget().isFieldAccessExpr()) {
-                                    modifiedVariables.add(assignment.getTarget().asFieldAccessExpr().getNameAsString());
-                                }                            
-                                //Add fix, if this.x and x are not the same but refer to the same field. 
-                                if (assignment.getTarget().isNameExpr()){
-                                    NameExpr nameExpr = assignment.getTarget().asNameExpr();
-                                    try {
-                                        ResolvedValueDeclaration resolved = JavaParserFacade.get(symbolSolver).solve(nameExpr).getCorrespondingDeclaration();
-                                        if (resolved instanceof ResolvedFieldDeclaration) {
-                                            modifiedVariables.add(nameExpr.getNameAsString());
+                            //Set<AssignExpr> modifications = new HashSet<>();
+
+                            if(!CoverageJsonFileHelper.hasCoverageInformation(testFileName)){
+                                System.out.println(testFileName + " has no coverage information");
+                            } else {
+                                for (AssignExpr assignment : assignments) {
+                                    // Block to check if the line is fully executed
+                                    List<Integer> executedLines = CoverageJsonFileHelper.getCoveredLinesForTest(testFileName, md.getNameAsString(), testFileName + ".java");
+                                    Integer assignationLine = assignment.getRange().get().begin.line;
+                                    if(executedLines.contains(assignationLine)){
+                                        // Control if there is a file
+                                        if (assignment.getTarget().isFieldAccessExpr()) {
+                                            modifiedVariables.add(assignment.getTarget().asFieldAccessExpr().getNameAsString());
+                                            //modifications.add(assignment);
                                         }
-                                    } catch (Exception e) {
-                                        System.out.println(nameExpr.getNameAsString() + " could not be resolved: " + e.getMessage());
+                                        //Add fix, if this.x and x are not the same but refer to the same field.
+                                        if (assignment.getTarget().isNameExpr()){
+                                            NameExpr nameExpr = assignment.getTarget().asNameExpr();
+                                            try {
+                                                ResolvedValueDeclaration resolved = JavaParserFacade.get(symbolSolver).solve(nameExpr).getCorrespondingDeclaration();
+                                                if (resolved instanceof ResolvedFieldDeclaration) {
+                                                    modifiedVariables.add(nameExpr.getNameAsString());
+                                                    //modifications.add(assignment);
+                                                }
+                                            } catch (Exception e) {
+                                                System.out.println(nameExpr.getNameAsString() + " could not be resolved: " + e.getMessage());
+                                            }
+                                        }
                                     }
                                 }
                             }
+
+//                            for(AssignExpr assignment : modifications){
+//                                int line = assignment.getRange().get().begin.line;
+//                                System.out.println("Assignation line in original file: " + line);
+//                                System.out.println("Assignation: " + assignment.toString());
+//                            }
                             boolean isAsserted = false;
                             ArrayList<String> modifiedVariablesList = new ArrayList<String>();
                             modifiedVariablesList.addAll(modifiedVariables);

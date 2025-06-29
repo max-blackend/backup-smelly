@@ -68,6 +68,12 @@
         <artifactId>commons-cli</artifactId>
         <version>1.4</version>
     </dependency>
+
+    <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.17.1</version>
+        </dependency>
     </dependencies>
 
     <!-- This blob of configuration tells Maven to make the jar executable. You can run it with:
